@@ -1,0 +1,26 @@
+on:
+  push:
+    branches:
+      - main
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+      - name: Tag and Create Release
+        id: semantic
+        uses: cycjimmy/semantic-release-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - if: steps.semantic.outputs.new_release_published == 'true'
+        name: Publish Package
+        env:
+          OCTOPUS_APIKEY: ${{ secrets.OCTOPUS_APIKEY }}
+        run: |
+          npm ci
+          npm run export
+          OCTOPUS_APIKEY="$OCTOPUS_APIKEY" node publish.js
