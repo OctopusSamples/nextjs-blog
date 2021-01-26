@@ -2,7 +2,7 @@
   "name": "nextjs-blog",
   "repository": {
     "type": "git",
-    "url": "https://github.com/pstephenson02/nextjs-blog.git"
+    "url": "https://github.com/OctopusSamples/nextjs-blog.git"
   },
   "private": true,
   "scripts": {
